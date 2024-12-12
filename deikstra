@@ -1,0 +1,31 @@
+class Graph:
+    def __init__(self, graph):
+        self.graph = graph
+    
+    def deikstra(self, start):
+        # словарик для хранения минимального расстояния
+        distance = {}
+        for vertex in self.graph:
+            distance[vertex] = float('inf')  
+        distance[start] = 0
+        unvisited = list(self.graph.keys())
+
+        # проходим по всем вершинам
+        while unvisited:
+            # обновляем текущую вершину
+            current_vertex = None
+            for vertex in unvisited:
+                if current_vertex is None or distance[vertex] < distance[current_vertex]:
+                    current_vertex = vertex
+
+            # удаляем посещенную вершину
+            unvisited.remove(current_vertex)
+
+            # выбираем наилучший путь
+            for neighbor, weight in self.graph[current_vertex].items():
+                new_distance = distance[current_vertex] + weight
+                if new_distance < distance[neighbor]:
+                    distance[neighbor] = new_distance
+
+        return distance
+        
